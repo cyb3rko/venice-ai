@@ -1,9 +1,15 @@
 package chat_endpoints
 
-import "net/http"
+import (
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"venice-ai/chat"
+)
 
-func Completion(model string) *http.Request {
-	path := "api_keys/rate_limits"
-	req, _ := http.NewRequest("POST", path, nil)
+func Completion(config *chat.ChatConfig) *http.Request {
+	path := "chat/completions"
+	body, _ := json.Marshal(config)
+	req, _ := http.NewRequest("POST", path, bytes.NewReader(body))
 	return req
 }

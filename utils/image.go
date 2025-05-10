@@ -8,11 +8,16 @@ import (
 	"strings"
 )
 
-func PersistBase64ToFile(id string, data string) error {
+func PersistBase64ToFile(id string, format string, data string) error {
 	data = "data:image/png;base64," + data
 	i := strings.Index(data, ",")
 	reader := base64.NewDecoder(base64.StdEncoding, strings.NewReader(data[i+1:]))
-	file, err := os.Create(tmpDataPath + id + ".png")
+
+	if format == "" {
+		format = "webp"
+	}
+	file, err := os.Create(tmpDataPath + id + "." + format)
+
 	if err != nil {
 		return err
 	}
